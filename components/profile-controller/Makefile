@@ -2,7 +2,7 @@ PROJECT ?= kubeflow-dev
 # Image URL to use all building/pushing image targets
 IMG ?= gcr.io/$(PROJECT)/profile-controller
 TAG ?= $(eval TAG := $(shell date +v%Y%m%d)-$(shell git describe --tags --always --dirty)-$(shell git diff | shasum -a256 | cut -c -6))$(TAG)
-GOLANG_VERSION ?= 1.12.5
+GOLANG_VERSION ?= 1.15.4
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"

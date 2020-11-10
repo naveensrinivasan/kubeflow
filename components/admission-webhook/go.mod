@@ -1,6 +1,6 @@
 module github.com/kubeflow/kubeflow/components/admission-webhook
 
-go 1.12
+go 1.15
 
 replace (
 	k8s.io/api => k8s.io/api v0.0.0-20190222213804-5cb15d344471
