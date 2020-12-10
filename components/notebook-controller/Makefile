@@ -70,7 +70,7 @@ generate: controller-gen
 docker-build: test
 	cd .. && docker build . -t ${IMG}:${TAG} -f ./notebook-controller/Dockerfile
 	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' .temp 's@image: .*@image: '"${IMG}:${TAG}"'@' ./config/default/manager_image_patch.yaml
+	sed -i'' -e 's@image: .*@image: '"${IMG}:${TAG}"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
 docker-push:
@@ -113,9 +113,3 @@ e2e-tests-k3d: k3d docker-build manifests
 		TEST_K3D_DOCKER_IMAGE=docker.io/rancher/k3s:v1.16.14-k3s1 TEST_USE_EXISTING_CLUSTER=false TEST_IMAGE=$(IMG):$(TAG) ginkgo --focus="E2E TEST:" -v  --cover  --coverprofile cover.out  ./e2e/...
 		@echo "Testing k3d 1.17"
 		TEST_K3D_DOCKER_IMAGE=docker.io/rancher/k3s:v1.17.14-k3s2 TEST_USE_EXISTING_CLUSTER=false TEST_IMAGE=$(IMG):$(TAG) ginkgo --focus="E2E TEST:" -v  --cover  --coverprofile cover.out  ./e2e/...
-		@echo "Testing k3d 1.18"
-		TEST_K3D_DOCKER_IMAGE=docker.io/rancher/k3s:v1.18.12-k3s1 TEST_USE_EXISTING_CLUSTER=false TEST_IMAGE=$(IMG):$(TAG) ginkgo --focus="E2E TEST:" -v  --cover  --coverprofile cover.out  ./e2e/...
-
-# Cleans docker images.
-docker-clean:
-	docker system prune -a -f
